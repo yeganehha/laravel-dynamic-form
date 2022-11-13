@@ -56,6 +56,9 @@ class DynamicFormServiceProvider extends ServiceProvider
 
     protected function registerCommands()
     {
+        $this->commands([
+            \Yeganehha\DynamicForm\Console\Command\Fields::class,
+        ]);
     }
 
     protected function registerModelBindings()

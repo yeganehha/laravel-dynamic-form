@@ -35,6 +35,18 @@ class DefineProperty
     }
 
 
+    /**
+     * Retrieve Default stub's path.
+     *
+     * @param string $name
+     * @return string
+     */
+    public static function getStubPath(string $name) : string
+    {
+        return dirname(__DIR__).'/stub/'.$name.'.stub';
+    }
+
+
 
 
 }
