@@ -1,10 +1,11 @@
 <?php
-namespace Yeganehha\DynamicForm;
+namespace Yeganehha\DynamicForm\Providers;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
+use Yeganehha\DynamicForm\DefineProperty;
 
 class DynamicFormServiceProvider extends ServiceProvider
 {
