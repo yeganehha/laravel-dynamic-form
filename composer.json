@@ -8,6 +8,11 @@
             "Yeganehha\\DynamicForm\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Yeganehha\\DynamicForm\\Tests\\": "tests/"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [

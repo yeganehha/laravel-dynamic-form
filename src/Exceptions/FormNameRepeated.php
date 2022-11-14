@@ -4,10 +4,10 @@ namespace Yeganehha\DynamicForm\Exceptions;
 
 use Exception;
 
-class ArrayValuesOfSelectBoxAreMissing extends Exception
+class FormNameRepeated extends Exception
 {
     public static function make(): self
     {
-        return new static('Select box option are missing!');
+        return new static('The title of the form is repeated.');
     }
 }
