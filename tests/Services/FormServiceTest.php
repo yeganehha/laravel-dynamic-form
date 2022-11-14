@@ -69,4 +69,36 @@ class FormServiceTest extends TestCase
         $form = FormService::find('test 2' , Form::class );
         $this->assertNull($form);
     }
+
+    public function testDelete()
+    {
+        FormService::findOrRegister('test 1' , Form::class );
+        $form = FormService::find('test 1' , Form::class );
+        $this->assertEquals($form->name , 'test 1' );
+        FormService::delete('test 1' , Form::class );
+        $form = FormService::find('test 1' , Form::class );
+        $this->assertNull($form);
+        $this->expectException(FatalErrorException::class);
+        FormService::delete('test 1' , Form::class );
+    }
+
+    public function testGetModelForms()
+    {
+        FormService::findOrRegister('test 1' , Form::class );
+        FormService::findOrRegister('test 2' , Form::class );
+        FormService::findOrRegister('test 2' , Form::class );
+        $forms = FormService::getModelForms( Form::class );
+        $this->assertCount(2,$forms);
+    }
+
+    public function testDeleteAll()
+    {
+        FormService::findOrRegister('test 1' , Form::class );
+        FormService::findOrRegister('test 2' , Form::class );
+        FormService::deleteAll( Form::class );
+        $form = FormService::find('test 1' , Form::class );
+        $this->assertNull($form);
+        $form = FormService::find('test 2' , Form::class );
+        $this->assertNull($form);
+    }
 }

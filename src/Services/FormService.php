@@ -2,6 +2,7 @@
 
 namespace Yeganehha\DynamicForm\Services;
 
+use Illuminate\Database\Eloquent\Collection;
 use Psy\Exception\FatalErrorException;
 use Yeganehha\DynamicForm\Events\Form\registeringNewFormEvent;
 use Yeganehha\DynamicForm\Events\Form\registerNewFormEvent;
@@ -76,6 +77,44 @@ class FormService
         if ( $form == null )
             $form = self::registerForm($formName,$model);
         return $form;
+    }
+
+    /**
+     * Get all form of special model
+     * @param $model
+     * @return Collection
+     * @throws FatalErrorException
+     */
+    public static function getModelForms($model) : Collection
+    {
+        $model = self::getModalAsString($model);
+        return  Form::FindByModel($model);
+    }
+
+    /**
+     * Delete form
+     * @param string $formName
+     * @param string|object $model
+     * @throws \Throwable
+     */
+    public static function delete(string $formName, $model ) : void
+    {
+        $form = self::find($formName,$model);
+        if ( $form == null )
+            throw new FatalErrorException(\sprintf('Form \'%s\' not found', $formName));
+        $form->delete();
+    }
+
+    /**
+     * Delete All form of Special Model
+     *
+     * @param string|object $model
+     * @throws FatalErrorException
+     */
+    public static function deleteAll($model) :void
+    {
+        foreach (self::getModelForms($model) as $form)
+            $form->delete();
     }
 
 

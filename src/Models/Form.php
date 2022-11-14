@@ -53,4 +53,9 @@ class Form extends Model
         $form->saveOrFail();
         return $form;
     }
+
+    public static function FindByModel(string $model)
+    {
+        return self::query()->where('model' , $model)->latest()->get();
+    }
 }
