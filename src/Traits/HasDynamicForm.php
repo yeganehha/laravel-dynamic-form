@@ -42,7 +42,7 @@ trait HasDynamicForm
      * @return Form
      * @throws FormNameRepeated | \Throwable
      */
-    public function form(string $name) : Form
+    public static function form(string $name) : Form
     {
         return FormService::findOrRegister($name , self::class);
     }
@@ -53,7 +53,7 @@ trait HasDynamicForm
      * @return Collection
      * @throws FatalErrorException
      */
-    public function allForm(): Collection
+    public static function allForm(): Collection
     {
         return FormService::getModelForms( self::class);
     }
@@ -65,7 +65,7 @@ trait HasDynamicForm
      * @return bool
      * @throws \Throwable
      */
-    public function formExist($name) : bool
+    public static function formExist($name) : bool
     {
         return FormService::formExist($name , self::class);
     }
@@ -77,12 +77,12 @@ trait HasDynamicForm
      * @throws FatalErrorException
      * @throws \Throwable
      */
-    public function deleteForm(string $name = null) : self
+    public static function deleteForm(string $name = null) : self
     {
         if ( $name )
             FormService::delete($name , self::class);
         else
             FormService::deleteAll(self::class);
-        return $this;
+        return new static();
     }
 }
