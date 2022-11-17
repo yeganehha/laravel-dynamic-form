@@ -2,11 +2,19 @@
 
 namespace Yeganehha\DynamicForm\Interfaces;
 
+use Yeganehha\DynamicForm\Handler\FormGroupHandler;
+
 interface FieldInterface
 {
     public function AdminMenuName() : string;
 
-    public function field(string $name , mixed $value = null , mixed $default_values = null, string $class = null , string $style = null , array $attributes) : string;
+    public function field(string $name, string $value = null, string $class = null, string $style = null, array $attributes, mixed $additional_data): string;
 
-    public function value(mixed $value = null) : string;
+    public function value(mixed $value = null) : ?string;
+
+    public function getBaseConfigFields(FormGroupHandler $form) : void;
+
+    public function getBaseStyleFields(FormGroupHandler $form) : void;
+
+    public function getBaseAdvanceFields(FormGroupHandler $form) : void;
 }

@@ -17,20 +17,20 @@ class SelectBoxField extends Field
     /**
      * @throws ArrayValuesOfSelectBoxAreMissing
      */
-    public function field(string $name, mixed $value = null, mixed $default_values = null, string $class = null, string $style = null, array $attributes): string
+    public function field(string $name, string $value = null, string $class = null, string $style = null, array $attributes, mixed $additional_data): string
     {
-        if( ! is_array($default_values) )
+        if( ! is_array($value) )
             throw new ArrayValuesOfSelectBoxAreMissing();
         return Blade::render(
             '<select name="{{ $name }}" @if($class) class="{{ $class }}" @endif @if($style) style="{{ $style }}" @endif @foreach($attributes as $attribute => $attribute_value) {{ $attribute}}="{{ $attribute_value }} @endforeach />'.
-            '@foreach($default_values as $default_value => $label) <option value="{{ $default_value }}" @if( $default_value == $value ) selected @endif>{{ $label }}</option>'.
+            '@foreach($value as $value => $label) <option value="{{ $value }}" @if( $value == $value ) selected @endif>{{ $label }}</option>'.
             '</select>',
-            compact('name', 'value' ,'class' ,'style' ,'attributes' , 'default_values')
+            compact('name' ,'class' ,'style' ,'attributes' , 'value' , 'additional_data' )
         );
     }
 
-    public function value(mixed $value = null): string
+    public function value(mixed $value = null): ?string
     {
-        return (string) $value ?? "-";
+        return (string) $value ?? null;
     }
 }

@@ -13,16 +13,16 @@ class PasswordField extends Field
         return trans('fields.password');
     }
 
-    public function field(string $name, mixed $value = null, mixed $default_values = null, string $class = null, string $style = null, array $attributes): string
+    public function field(string $name, string $value = null, string $class = null, string $style = null, array $attributes, mixed $additional_data): string
     {
         return Blade::render(
             '<input type="password" name="{{ $name }}" @if($value) value="{{ $value }}" @endif @if($class) class="{{ $class }}" @endif @if($style) style="{{ $style }}" @endif @foreach($attributes as $attribute => $attribute_value) {{ $attribute}}="{{ $attribute_value }} @endforeach />',
-            compact('name', 'value' ,'class' ,'style' ,'attributes' , 'default_values')
+            compact('name' ,'class' ,'style' ,'attributes' , 'value' , 'additional_data' )
         );
     }
 
-    public function value(mixed $value = null): string
+    public function value(mixed $value = null): ?string
     {
-        return (string) $value ?? "-";
+        return (string) $value ?? null;
     }
 }

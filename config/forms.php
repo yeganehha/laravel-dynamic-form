@@ -22,4 +22,10 @@ return [
         \Yeganehha\DynamicForm\Fields\TimeField::class,
         \Yeganehha\DynamicForm\Fields\UrlField::class,
     ],
+    'style' => [
+        'divider' => [
+            'class' => 'row',
+            'use_hr_tag' => false,
+        ]
+    ]
 ];
