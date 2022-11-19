@@ -46,7 +46,10 @@ class DefineProperty
         return dirname(__DIR__).'/stub/'.$name.'.stub';
     }
 
-
+    public static function getDefaultViewPath(): string
+    {
+        return dirname(__DIR__).'/Resources/views';
+    }
 
 
 }

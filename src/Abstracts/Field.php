@@ -114,4 +114,9 @@ abstract class Field implements FieldInterface
         );
         $this->baseAdvanceFields($form);
     }
+
+    public function getClass(): string
+    {
+        return str_replace('\\' , '\\\\' , get_class($this));
+    }
 }

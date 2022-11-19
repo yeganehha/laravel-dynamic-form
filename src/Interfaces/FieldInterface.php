@@ -17,4 +17,6 @@ interface FieldInterface
     public function getBaseStyleFields(FormGroupHandler $form) : void;
 
     public function getBaseAdvanceFields(FormGroupHandler $form) : void;
+
+    public function getClass(): string ;
 }

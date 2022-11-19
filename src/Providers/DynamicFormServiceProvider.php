@@ -5,7 +5,9 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
+use Livewire\Livewire;
 use Yeganehha\DynamicForm\DefineProperty;
+use Yeganehha\DynamicForm\Livewire\FormMakerComponent;
 
 class DynamicFormServiceProvider extends ServiceProvider
 {
@@ -35,10 +37,20 @@ class DynamicFormServiceProvider extends ServiceProvider
         $this->registerCommands();
 
         $this->registerModelBindings();
+
+        $this->registerLivewareComponent();
+
+        $this->loadViewsFrom( DefineProperty::getDefaultViewPath(), 'DynamicForm');
     }
 
     protected function offerPublishing()
     {
+        $this->publishes([
+            DefineProperty::getDefaultConfigurationPath() => config_path(DefineProperty::$configFile.'.php' ),
+            DefineProperty::getDefaultMigrationPath() => $this->getMigrationFileName( DefineProperty::$defaultMigrationFileName ),
+            DefineProperty::getDefaultViewPath() => resource_path('views/vendor/DynamicForm'),
+        ], 'DynamicForm');
+
         $this->publishes([
             DefineProperty::getDefaultConfigurationPath() => config_path(DefineProperty::$configFile.'.php' ),
         ], 'config');
@@ -46,6 +58,10 @@ class DynamicFormServiceProvider extends ServiceProvider
         $this->publishes([
             DefineProperty::getDefaultMigrationPath() => $this->getMigrationFileName( DefineProperty::$defaultMigrationFileName ),
         ], 'migrations');
+
+        $this->publishes([
+            DefineProperty::getDefaultViewPath() => resource_path('views/vendor/DynamicForm'),
+        ], 'views');
     }
 
 
@@ -87,5 +103,13 @@ class DynamicFormServiceProvider extends ServiceProvider
             })
             ->push($this->app->databasePath()."/migrations/{$timestamp}_{$migrationFileName}")
             ->first();
+    }
+
+    protected function registerLivewareComponent()
+    {
+        Livewire::component(
+            'form-maker',
+            FormMakerComponent::class
+        );
     }
 }
