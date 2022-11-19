@@ -10,9 +10,14 @@
             </div>
         </div>
         <div class="col-md-8 col-sm-12">
-            @foreach($fields as $field)
-                <div class="bg-gradient bg-secondary bg-opacity-50 border-3 m-3 pointer-event">{{ $field->AdminMenuName() }}</div>
-            @endforeach
+            <div wire:sortable="updateFieldSortOrder" class="row"  >
+                @foreach($fields as $orderIndex => $field)
+                    <div wire:sortable.item="{{ $orderIndex }}" class="col-md-6"  >
+                        <div class="bg-gradient bg-secondary bg-opacity-50 border-3 m-3 pointer-event">{{ $field->AdminMenuName() }}</div>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/gh/livewire/sortable@v0.x.x/dist/livewire-sortable.js" defer></script>
 </div>

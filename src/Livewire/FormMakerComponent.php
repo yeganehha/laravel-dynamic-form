@@ -19,15 +19,9 @@ class FormMakerComponent extends Component
 
     public function mount(Request $request)
     {
-        foreach ( config(DefineProperty::$configFile.'.fields' , [] ) as $item) {
-            if (class_exists($item) and is_subclass_of($item, FieldInterface::class))
-                $this->type_fields[] = new $item();
-            else
-                throw new UnknownFieldLoaded();
-        }
+        $this->mountData();
     }
-
-    public function render(): View
+    private function mountData()
     {
         $this->type_fields = [];
         $this->fields = [];
@@ -43,19 +37,28 @@ class FormMakerComponent extends Component
             else
                 throw new UnknownFieldLoaded();
         }
-        return view('DynamicForm::livewire.form-maker' , [
-            'type_fields' => $this->type_fields ,
-            'fields' => $this->fields
-        ]);
+    }
+
+    public function render(): View
+    {
+        return view('DynamicForm::livewire.form-maker');
     }
 
     public function addField(string $field)
     {
         if (class_exists($field) and is_subclass_of($field, FieldInterface::class)) {
             $this->fieldsClassName[] = $field;
-            $this->fields[] = new $field();
+            $this->mountData();
         } else
             throw new UnknownFieldLoaded();
+    }
+
+    public function updateFieldSortOrder($fieldsClassName)
+    {
+        $this->fieldsClassName = collect($fieldsClassName)->map(function ($index) {
+            return $this->fieldsClassName[(int) $index['value']] ?? null ;
+        })->toArray();
+        $this->mountData();
     }
 
 }
