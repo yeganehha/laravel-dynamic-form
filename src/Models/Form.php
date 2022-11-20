@@ -2,12 +2,15 @@
 
 namespace Yeganehha\DynamicForm\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Yeganehha\DynamicForm\DefineProperty;
 
 /**
+ * @property int $id
  * @property string $name
  * @property string $model
+ * @property Collection $fields
  * @property bool $external_table
  */
 class Form extends Model
@@ -57,5 +60,10 @@ class Form extends Model
     public static function FindByModel(string $model)
     {
         return self::query()->where('model' , $model)->latest()->get();
+    }
+
+    public function fields(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Field::class)->orderBy('order_number');
     }
 }

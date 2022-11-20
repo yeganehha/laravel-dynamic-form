@@ -3,40 +3,38 @@
 namespace Yeganehha\DynamicForm\Livewire;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 use Yeganehha\DynamicForm\DefineProperty;
 use Yeganehha\DynamicForm\Exceptions\UnknownFieldLoaded;
 use Yeganehha\DynamicForm\Interfaces\FieldInterface;
+use Yeganehha\DynamicForm\Models\Field;
+use Yeganehha\DynamicForm\Models\Form;
 
 class FormMakerComponent extends Component
 {
-
+    public Form $form ;
     public array $type_fields = [];
 
-    public array $fieldsClassName = [];
-    public array $fields = [];
+    public Collection $fields;
 
-    public function mount(Request $request)
+    public function mount(Request $request,Form $form)
     {
+        $this->form = $form;
         $this->mountData();
     }
     private function mountData()
     {
         $this->type_fields = [];
-        $this->fields = [];
         foreach ( config(DefineProperty::$configFile.'.fields' , [] ) as $item) {
             if (class_exists($item) and is_subclass_of($item, FieldInterface::class))
                 $this->type_fields[] = new $item();
             else
                 throw new UnknownFieldLoaded();
         }
-        foreach ( $this->fieldsClassName as $item) {
-            if (class_exists($item) and is_subclass_of($item, FieldInterface::class))
-                $this->fields[] = new $item();
-            else
-                throw new UnknownFieldLoaded();
-        }
+        $this->fields = $this->form->fields()->get();
     }
 
     public function render(): View
@@ -47,17 +45,24 @@ class FormMakerComponent extends Component
     public function addField(string $field)
     {
         if (class_exists($field) and is_subclass_of($field, FieldInterface::class)) {
-            $this->fieldsClassName[] = $field;
+            $field = new $field();
+            Field::insert($this->form,$field->AdminMenuName(),$field);
             $this->mountData();
         } else
             throw new UnknownFieldLoaded();
     }
 
-    public function updateFieldSortOrder($fieldsClassName)
+    /**
+     * @throws UnknownFieldLoaded
+     */
+    public function updateFieldSortOrder($sorted_fields)
     {
-        $this->fieldsClassName = collect($fieldsClassName)->map(function ($index) {
-            return $this->fieldsClassName[(int) $index['value']] ?? null ;
-        })->toArray();
+        if ( is_array($sorted_fields)) {
+            DB::beginTransaction();
+            foreach ($sorted_fields as $field)
+                Field::updateOrder((int)$field['value'], (int)$field['order']);
+            DB::commit();
+        }
         $this->mountData();
     }
 

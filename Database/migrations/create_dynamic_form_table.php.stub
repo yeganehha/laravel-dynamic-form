@@ -32,12 +32,12 @@ class CreateDynamicFormTable extends Migration
             $table->json('validate')->nullable();
             $table->string('type_variable')->default(\Yeganehha\DynamicForm\Fields\TextField::class);
             $table->enum('status',['show','hidden','required'])->default('show');
-            $table->integer('order_number')->default(0);
+            $table->integer('order_number')->default(2147483647);
             $table->string('class')->nullable();
             $table->string('style')->nullable();
             $table->json('field_attributes')->nullable();
             $table->json('additional_data')->nullable();
-            $table->unsignedBigInteger('parent_id');
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->foreign('parent_id')->on(config(DefineProperty::$configFile.'.database.table_name.field'))->references('id')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

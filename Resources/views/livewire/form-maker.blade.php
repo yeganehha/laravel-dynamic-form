@@ -11,9 +11,9 @@
         </div>
         <div class="col-md-8 col-sm-12">
             <div wire:sortable="updateFieldSortOrder" class="row"  >
-                @foreach($fields as $orderIndex => $field)
-                    <div wire:sortable.item="{{ $orderIndex }}" class="col-md-6"  >
-                        <div class="bg-gradient bg-secondary bg-opacity-50 border-3 m-3 pointer-event">{{ $field->AdminMenuName() }}</div>
+                @foreach($fields as $field)
+                    <div wire:sortable.item="{{ $field->id }}" class="col-md-6"  >
+                        <div class="bg-gradient bg-secondary bg-opacity-50 border-3 m-3 pointer-event">{{ $field->label }}</div>
                     </div>
                 @endforeach
             </div>
