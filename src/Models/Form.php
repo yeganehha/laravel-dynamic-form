@@ -38,6 +38,16 @@ class Form extends Model
         return self::query()->whereName($name)->whereModel($model)->first();
     }
 
+    /**
+     * Find Form
+     * @param int $id
+     * @return self
+     */
+    public static function findById(int $id) : Model
+    {
+        return self::query()->findOrFail($id);
+    }
+
 
     /**
      * Create new form.
@@ -65,5 +75,10 @@ class Form extends Model
     public function fields(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Field::class)->orderBy('order_number');
+    }
+
+    public function getAllFields(): Collection
+    {
+        return $this->fields()->get();
     }
 }

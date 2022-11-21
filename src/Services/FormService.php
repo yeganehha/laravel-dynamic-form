@@ -63,6 +63,16 @@ class FormService
         return Form::find($formName, $model);
     }
 
+    /**
+     * get Form by id.
+     * @param int $id
+     * @return Form|null
+     */
+    public static function findById(int $id ) : ?Form
+    {
+        return Form::findById($id);
+    }
+
 
     /**
      * Find Form and if not exist, generate new form.
@@ -115,6 +125,11 @@ class FormService
     {
         foreach (self::getModelForms($model) as $form)
             $form->delete();
+    }
+
+    public static function fields(Form $form)
+    {
+        return $form->getAllFields();
     }
 
 

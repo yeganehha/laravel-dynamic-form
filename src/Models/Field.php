@@ -76,7 +76,7 @@ class Field extends Model
      * @param mixed|null $value
      * @param string|null $font_icon
      * @param mixed|null $validate
-     * @param int $order_number
+     * @param int|null $order_number
      * @param string|null $class
      * @param string|null $style
      * @param mixed|null $field_attributes
@@ -113,20 +113,22 @@ class Field extends Model
     }
 
     /**
-     * @param int|self $field
      * @param int $order
      * @return static
-     * @throws UnknownFieldLoaded
      */
-    public static function updateOrder(mixed $field , int $order): self
+    public function updateOrder(int $order): self
     {
-        if ( is_int($field) ) {
-            $field = self::query()->findOrFail($field);
-        } elseif ( ! $field instanceof self){
-            throw new UnknownFieldLoaded();
-        }
-        $field->order_number = $order;
-        $field->save();
-        return $field;
+        $this->order_number = $order;
+        $this->save();
+        return $this;
+    }
+
+    /**
+     * @param int $id
+     * @return self
+     */
+    public static function findById(int $id): Model
+    {
+        return self::query()->findOrFail($id);
     }
 }

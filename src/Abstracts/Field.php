@@ -2,6 +2,7 @@
 
 namespace Yeganehha\DynamicForm\Abstracts;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Blade;
 use Yeganehha\DynamicForm\Fields\TextField;
 use Yeganehha\DynamicForm\Models\Field as FieldModel;
@@ -9,7 +10,7 @@ use Yeganehha\DynamicForm\Handler\FormGroupHandler;
 use Yeganehha\DynamicForm\Interfaces\FieldInterface;
 use Yeganehha\DynamicForm\Enums\FieldStatusEnum;
 
-abstract class Field implements FieldInterface
+abstract class Field implements FieldInterface,Arrayable
 {
     /**
      * Is it responsible for sorting and formatting the form?

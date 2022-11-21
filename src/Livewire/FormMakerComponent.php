@@ -7,11 +7,14 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
+use Psy\Exception\FatalErrorException;
 use Yeganehha\DynamicForm\DefineProperty;
 use Yeganehha\DynamicForm\Exceptions\UnknownFieldLoaded;
 use Yeganehha\DynamicForm\Interfaces\FieldInterface;
 use Yeganehha\DynamicForm\Models\Field;
 use Yeganehha\DynamicForm\Models\Form;
+use Yeganehha\DynamicForm\Services\FieldService;
+use Yeganehha\DynamicForm\Services\FormService;
 
 class FormMakerComponent extends Component
 {
@@ -22,18 +25,13 @@ class FormMakerComponent extends Component
 
     public function mount(Request $request,Form $form)
     {
-        foreach ( config(DefineProperty::$configFile.'.fields' , [] ) as $item) {
-            if (class_exists($item) and is_subclass_of($item, FieldInterface::class))
-                $this->type_fields[] = (new $item())->toArray();
-            else
-                throw new UnknownFieldLoaded();
-        }
+        $this->type_fields = FieldService::getAllTypes()->toArray();
         $this->form = $form;
         $this->mountData();
     }
     private function mountData()
     {
-        $this->fields = $this->form->fields()->get();
+        $this->fields = FormService::fields($this->form);
     }
 
     public function render(): View
@@ -41,14 +39,15 @@ class FormMakerComponent extends Component
         return view('DynamicForm::livewire.form-maker');
     }
 
+    /**
+     * @throws \Throwable
+     * @throws FatalErrorException
+     * @throws UnknownFieldLoaded
+     */
     public function addField(string $field)
     {
-        if (class_exists($field) and is_subclass_of($field, FieldInterface::class)) {
-            $field = new $field();
-            Field::insert($this->form,$field->adminName(),$field);
-            $this->mountData();
-        } else
-            throw new UnknownFieldLoaded();
+        FieldService::insert($this->form,$field);
+        $this->mountData();
     }
 
     /**
@@ -57,10 +56,9 @@ class FormMakerComponent extends Component
     public function updateFieldSortOrder($sorted_fields)
     {
         if ( is_array($sorted_fields)) {
-            DB::beginTransaction();
-            foreach ($sorted_fields as $field)
-                Field::updateOrder((int)$field['value'], (int)$field['order']);
-            DB::commit();
+            FieldService::updateAllFields(Collect($sorted_fields)->map(function ($item) {
+                return [ (int) $item['value'] ,(int) $item['order']];
+            })->toArray());
         }
         $this->mountData();
     }
