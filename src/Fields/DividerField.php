@@ -11,7 +11,7 @@ class DividerField extends Field
 
     public $styleField = true ;
 
-    public function AdminMenuName(): string
+    public function adminName(): string
     {
         return trans('fields.divider');
     }

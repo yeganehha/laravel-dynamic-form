@@ -119,4 +119,17 @@ abstract class Field implements FieldInterface
     {
         return str_replace('\\' , '\\\\' , get_class($this));
     }
+
+    public function toArray() :array
+    {
+        return [
+            'styleField' => $this->styleField,
+            'hasChildField' => $this->hasChildField,
+            'canMakeDuplicate' => $this->canMakeDuplicate,
+            'class' => $this->getClass(),
+            'admin' => [
+                'name' => $this->adminName(),
+            ]
+        ];
+    }
 }

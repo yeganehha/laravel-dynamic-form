@@ -8,7 +8,7 @@ use Yeganehha\DynamicForm\Abstracts\Field;
 class FileField extends Field
 {
 
-    public function AdminMenuName(): string
+    public function adminName(): string
     {
         return trans('fields.file');
     }

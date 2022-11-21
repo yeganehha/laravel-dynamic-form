@@ -8,7 +8,7 @@ use Yeganehha\DynamicForm\Abstracts\Field;
 class TimeField extends Field
 {
 
-    public function AdminMenuName(): string
+    public function adminName(): string
     {
         return trans('fields.time');
     }

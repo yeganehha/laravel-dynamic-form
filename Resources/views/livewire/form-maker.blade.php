@@ -4,7 +4,7 @@
             <div class="row">
                 @foreach($type_fields as $type_field)
                     <div class="col-md-6">
-                        <button class="btn btn-secondary m-3 w-100 text-center" wire:click="addField('{{$type_field->getClass()}}')">{{ $type_field->AdminMenuName() }}</button>
+                        <button class="btn btn-secondary m-3 w-100 text-center" wire:click="addField('{{$type_field['class']}}')">{{ $type_field['admin']['name']}}</button>
                     </div>
                 @endforeach
             </div>

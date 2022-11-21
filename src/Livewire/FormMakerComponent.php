@@ -22,18 +22,17 @@ class FormMakerComponent extends Component
 
     public function mount(Request $request,Form $form)
     {
+        foreach ( config(DefineProperty::$configFile.'.fields' , [] ) as $item) {
+            if (class_exists($item) and is_subclass_of($item, FieldInterface::class))
+                $this->type_fields[] = (new $item())->toArray();
+            else
+                throw new UnknownFieldLoaded();
+        }
         $this->form = $form;
         $this->mountData();
     }
     private function mountData()
     {
-        $this->type_fields = [];
-        foreach ( config(DefineProperty::$configFile.'.fields' , [] ) as $item) {
-            if (class_exists($item) and is_subclass_of($item, FieldInterface::class))
-                $this->type_fields[] = new $item();
-            else
-                throw new UnknownFieldLoaded();
-        }
         $this->fields = $this->form->fields()->get();
     }
 
@@ -46,7 +45,7 @@ class FormMakerComponent extends Component
     {
         if (class_exists($field) and is_subclass_of($field, FieldInterface::class)) {
             $field = new $field();
-            Field::insert($this->form,$field->AdminMenuName(),$field);
+            Field::insert($this->form,$field->adminName(),$field);
             $this->mountData();
         } else
             throw new UnknownFieldLoaded();

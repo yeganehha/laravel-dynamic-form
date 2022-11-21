@@ -8,7 +8,7 @@ use Yeganehha\DynamicForm\Abstracts\Field;
 class PasswordField extends Field
 {
 
-    public function AdminMenuName(): string
+    public function adminName(): string
     {
         return trans('fields.password');
     }

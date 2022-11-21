@@ -8,7 +8,7 @@ use Yeganehha\DynamicForm\Abstracts\Field;
 class RadioField extends Field
 {
 
-    public function AdminMenuName(): string
+    public function adminName(): string
     {
         return trans('fields.radio');
     }

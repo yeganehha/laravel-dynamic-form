@@ -9,7 +9,7 @@ use Yeganehha\DynamicForm\Exceptions\ArrayValuesOfSelectBoxAreMissing;
 class SelectBoxField extends Field
 {
 
-    public function AdminMenuName(): string
+    public function adminName(): string
     {
         return trans('fields.select');
     }

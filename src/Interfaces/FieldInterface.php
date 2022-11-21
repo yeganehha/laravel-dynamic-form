@@ -6,7 +6,7 @@ use Yeganehha\DynamicForm\Handler\FormGroupHandler;
 
 interface FieldInterface
 {
-    public function AdminMenuName() : string;
+    public function adminName() : string;
 
     public function field(string $name, string $value = null, string $class = null, string $style = null, array $attributes, mixed $additional_data): string;
 
@@ -19,4 +19,6 @@ interface FieldInterface
     public function getBaseAdvanceFields(FormGroupHandler $form) : void;
 
     public function getClass(): string ;
+
+    public function toArray(): array ;
 }
