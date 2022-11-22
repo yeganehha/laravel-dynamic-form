@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use Livewire\Livewire;
 use Yeganehha\DynamicForm\DefineProperty;
+use Yeganehha\DynamicForm\Livewire\EditFieldModal;
 use Yeganehha\DynamicForm\Livewire\FormMakerComponent;
 
 class DynamicFormServiceProvider extends ServiceProvider
@@ -110,6 +111,10 @@ class DynamicFormServiceProvider extends ServiceProvider
         Livewire::component(
             'form-maker',
             FormMakerComponent::class
+        );
+        Livewire::component(
+            'edit-field-modal',
+            EditFieldModal::class
         );
     }
 }
