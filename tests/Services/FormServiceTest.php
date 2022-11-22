@@ -101,4 +101,12 @@ class FormServiceTest extends TestCase
         $form = FormService::find('test 2' , Form::class );
         $this->assertNull($form);
     }
+
+    public function testFindById()
+    {
+        FormService::findOrRegister('test 1' , Form::class );
+        $form = FormService::find('test 1' , Form::class );
+        $form2 = FormService::findById($form->id );
+        $this->assertEquals($form , $form2);
+    }
 }

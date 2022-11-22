@@ -13,6 +13,7 @@ use Yeganehha\DynamicForm\Traits\FieldModelSetter;
 /**
  * @property int id
  * @property int form_id
+ * @property Form form
  * @property string label
  * @property string description
  * @property string font_icon
@@ -64,6 +65,10 @@ class Field extends Model
         parent::__construct($attributes);
     }
 
+    public function form(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Form::class);
+    }
 
     /**
      * Create new form.
@@ -91,7 +96,7 @@ class Field extends Model
         $field->label = $label;
         $field->type_variable = get_class($type_variable);
         if ( $parent )
-            $field->parent_id = $parent;
+            $field->parent_id = $parent->id;
         $field->status = $status;
         $field->description = $description;
         $field->value = $value;

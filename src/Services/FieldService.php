@@ -65,7 +65,7 @@ class FieldService
             } elseif( isset($form['name'] , $form['model']) ){
                 $form = FormService::find($form['name'] ,$form['model'] );
             } elseif (isset($form[0]) and count($form) == 1){
-                $form = FormService::findById($form['id']);
+                $form = FormService::findById($form[0]);
             } elseif (isset($form[0] , $form[1]) and count($form) == 2){
                 $form = FormService::find($form[0] ,$form[1] );
             } else {
