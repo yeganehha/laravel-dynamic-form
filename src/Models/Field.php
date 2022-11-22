@@ -20,6 +20,7 @@ use Yeganehha\DynamicForm\Traits\FieldModelSetter;
  * @property mixed value
  * @property mixed validate
  * @property string type_variable
+ * @property ?FieldInterface type
  * @property string status
  * @property int order_number
  * @property string class
@@ -58,6 +59,8 @@ class Field extends Model
         'field_attributes' => 'json',
         'additional_data' => 'json',
     ];
+
+    protected $appends = ['type'];
 
     public function __construct(array $attributes = [])
     {
@@ -135,5 +138,13 @@ class Field extends Model
     public static function findById(int $id): Model
     {
         return self::query()->findOrFail($id);
+    }
+
+    public function getTypeAttribute ()
+    {
+        if ( is_string($this->type_variable) and class_exists($this->type_variable) and is_subclass_of($this->type_variable, FieldInterface::class) ){
+            return new ($this->type_variable)();
+        }
+        return null;
     }
 }

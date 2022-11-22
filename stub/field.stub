@@ -13,6 +13,11 @@ class {{ FieldName }} extends Field
         return trans('fields.{{ variable_type }}');
     }
 
+    public function adminIconHtml(): string|null
+    {
+        return parent::adminIconHtml();
+    }
+
     public function field(string $name, string $value = null, string $class = null, string $style = null, array $attributes, mixed $additional_data): string
     {
         return Blade::render(
