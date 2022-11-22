@@ -20,10 +20,15 @@ class FormMakerComponent extends Component
 {
     public Form $form ;
     public array $type_fields = [];
-
     public Collection $fields;
 
-    public function mount(Request $request,Form $form)
+    public ?string $activeModal;
+    public array $modals = [];
+
+    /**
+     * @throws UnknownFieldLoaded
+     */
+    public function mount(Request $request, Form $form)
     {
         $this->type_fields = FieldService::getAllTypes()->toArray();
         $this->form = $form;
@@ -51,16 +56,47 @@ class FormMakerComponent extends Component
     }
 
     /**
-     * @throws UnknownFieldLoaded
+     * @param array $sorted_fields
      */
-    public function updateFieldSortOrder($sorted_fields)
+    public function updateFieldSortOrder(array $sorted_fields)
     {
-        if ( is_array($sorted_fields)) {
-            FieldService::updateAllFields(Collect($sorted_fields)->map(function ($item) {
-                return [ (int) $item['value'] ,(int) $item['order']];
-            })->toArray());
-        }
+        FieldService::updateAllFields(Collect($sorted_fields)->map(static function ($item) {
+            return [ (int) $item['value'] ,(int) $item['order']];
+        })->toArray());
         $this->mountData();
     }
 
+
+    public function openModal(string $component, array $componentAttributes = [], array $modalAttributes = []): void
+    {
+        $componentClass = app('livewire')->getClass($component);
+        $id = md5($component . serialize($componentAttributes));
+        $this->modals[$id] = [
+            'name'            => $component,
+            'attributes'      => $componentAttributes,
+            'modalAttributes' => array_merge([
+                'closeOnClickAway' => $componentClass::closeModalOnClickAway(),
+                'closeOnEscape' => $componentClass::closeModalOnEscape(),
+                'closeOnEscapeIsForceful' => $componentClass::closeModalOnEscapeIsForceful(),
+                'dispatchCloseEvent' => $componentClass::dispatchCloseEvent(),
+                'destroyOnClose' => $componentClass::destroyOnClose(),
+                'maxWidth' => $componentClass::modalMaxWidth(),
+                'maxWidthClass' => $componentClass::modalMaxWidthClass(),
+            ], $modalAttributes),
+        ];
+        $this->activeModal = $id;
+    }
+
+    public function closeModal(string $id): void
+    {
+        unset($this->modals[$id]);
+    }
+
+    public function getListeners(): array
+    {
+        return [
+            'openModal',
+            'closeModal'
+        ];
+    }
 }
