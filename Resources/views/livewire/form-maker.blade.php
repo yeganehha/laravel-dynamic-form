@@ -1,11 +1,14 @@
 <div>
-    <div class="YLDF-grid YLDF-grid-cols-3">
-        <div class="YLDF-max-h-48 YLDF-overscroll-y-auto">
+    <div class="YLDF-grid lg:YLDF-grid-cols-3 max-lg:YLDF-grid-cols-1"
+         x-data="{showList: false}">
+        <div class="YLDF-max-h-screen YLDF-overflow-y-auto lg:YLDF-block max-lg:YLDF-hidden"
+             x-bind:class="{'max-lg:YLDF-hidden': !showList}">
             <div class="YLDF-grid YLDF-grid-cols-2">
                 @foreach($type_fields as $type_field)
                     <div>
                         <button class="YLDF-text-gray-900 YLDF-bg-white hover:YLDF-bg-gray-100 YLDF-border YLDF-border-gray-200 YLDF-font-medium YLDF-rounded-lg YLDF-text-sm YLDF-px-5 YLDF-py-2.5 YLDF-text-center YLDF-inline-flex YLDF-items-center YLDF-mx-2 YLDF-my-2 YLDF-w-11/12"
-                                wire:click="addField('{{$type_field['class']}}')">
+                                wire:click="addField('{{$type_field['class']}}')"
+                                x-on:click="showList = !showList">
                             @if( $type_field['admin']['icon']  )
                                 <div class="YLDF-mr-2 YLDF--ml-1 YLDF-w-6 YLDF-h-5">
                                     {!! $type_field['admin']['icon'] !!}
@@ -16,8 +19,22 @@
                     </div>
                 @endforeach
             </div>
+            <div class="lg:YLDF-hidden max-lg:YLDF-block">
+                <div class="YLDF-px-2">
+                    <button class="YLDF-text-gray-900 YLDF-bg-gray-300 hover:YLDF-bg-gray-100 YLDF-border YLDF-border-gray-200 YLDF-font-medium YLDF-rounded-lg YLDF-text-sm YLDF-px-5 YLDF-py-2.5 YLDF-justify-center YLDF-inline-flex YLDF-items-center YLDF-my-2 YLDF-w-full"
+                            x-on:click="showList = !showList">
+                        <div class="YLDF-mr-2 YLDF--ml-1 YLDF-w-6 YLDF-h-5">
+                            <svg width="20px" height="20px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                                <polyline points="112 160 48 224 112 288" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+                                <path d="M64,224H358c58.76,0,106,49.33,106,108v20" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/>
+                            </svg>
+                        </div>
+                        {{ trans('form.back_to_form') }}
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="YLDF-col-span-2 YLDF-mx-2 YLDF-border-dashed YLDF-border-2 YLDF-border-gray-200 YLDF-rounded YLDF-bg-gray-50 YLDF-mt-2">
+        <div class="lg:YLDF-col-span-2 YLDF-mx-2 YLDF-border-dashed YLDF-border-2 YLDF-border-gray-200 YLDF-rounded YLDF-bg-gray-50 YLDF-mt-2"  x-bind:class="{'YLDF-hidden md:YLDF-block': showList}">
             <div wire:sortable="updateFieldSortOrder" class="YLDF-grid YLDF-grid-cols-2"  >
                 @forelse($fields as $field)
                     <div wire:sortable.item="{{ $field->id }}" class="YLDF-mx-2  YLDF-cursor-move YLDF-border-dashed YLDF-border-2 YLDF-border-gray-200 YLDF-rounded YLDF-bg-white YLDF-my-2" >
@@ -44,164 +61,30 @@
                     </div>
                 @endforelse
             </div>
+            <div class="lg:YLDF-hidden max-lg:YLDF-block">
+                <div class="YLDF-px-2">
+                    <button class="YLDF-text-gray-900 YLDF-bg-gray-300 hover:YLDF-bg-gray-100 YLDF-border YLDF-border-gray-200 YLDF-font-medium YLDF-rounded-lg YLDF-text-sm YLDF-px-5 YLDF-py-2.5 YLDF-justify-center YLDF-inline-flex YLDF-items-center YLDF-my-2 YLDF-w-full"
+                        x-on:click="showList = !showList">
+                        <div class="YLDF-mr-2 YLDF--ml-1 YLDF-w-6 YLDF-h-5">
+                            <svg version="1.1" width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                 viewBox="0 0 490 490" xml:space="preserve">
+                                <path d="M227.8,174.1v53.7h-53.7c-9.5,0-17.2,7.7-17.2,17.2s7.7,17.2,17.2,17.2h53.7v53.7c0,9.5,7.7,17.2,17.2,17.2
+                                    s17.1-7.7,17.1-17.2v-53.7h53.7c9.5,0,17.2-7.7,17.2-17.2s-7.7-17.2-17.2-17.2h-53.7v-53.7c0-9.5-7.7-17.2-17.1-17.2
+                                    S227.8,164.6,227.8,174.1z"/>
+                                <path d="M71.7,71.7C25.5,118,0,179.5,0,245s25.5,127,71.8,173.3C118,464.5,179.6,490,245,490s127-25.5,173.3-71.8
+                                    C464.5,372,490,310.4,490,245s-25.5-127-71.8-173.3C372,25.5,310.5,0,245,0C179.6,0,118,25.5,71.7,71.7z M455.7,245
+                                    c0,56.3-21.9,109.2-61.7,149s-92.7,61.7-149,61.7S135.8,433.8,96,394s-61.7-92.7-61.7-149S56.2,135.8,96,96s92.7-61.7,149-61.7
+                                    S354.2,56.2,394,96S455.7,188.7,455.7,245z"/>
+                            </svg>
+                        </div>
+                        {{ trans('form.add_field') }}
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
-    <script>
-        window.LivewireUIModal = () => {
-            return {
-                show: false,
-                showActiveModal: true,
-                activeModal: false,
-                modalHistory: [],
-                modalWidth: null ,
-                getActiveModalAttribute(key) {
-                    if (this.$wire.get('modals')[this.activeModal] !== undefined) {
-                        return this.$wire.get('modals')[this.activeModal]['modalAttributes'][key];
-                    }
-                },
-                closeModalOnEscape(trigger) {
-                    if (this.getActiveModalAttribute('closeOnEscape') === false) {
-                        return;
-                    }
-
-                    let force = this.getActiveModalAttribute('closeOnEscapeIsForceful') === true;
-                    this.closeModal(force);
-                },
-                closeModalOnClickAway(trigger) {
-                    if (this.getActiveModalAttribute('closeOnClickAway') === false) {
-                        return;
-                    }
-
-                    this.closeModal(true);
-                },
-                closeModal(force = false, skipPreviousModals = 0, destroySkipped = false) {
-                    if(this.show === false) {
-                        return;
-                    }
-
-                    if (this.getActiveModalAttribute('dispatchCloseEvent') === true) {
-                        const componentName = this.$wire.get('modals')[this.activeModal].name;
-                        Livewire.emit('modalClosed', componentName);
-                    }
-
-                    if (this.getActiveModalAttribute('destroyOnClose') === true) {
-                        Livewire.emit('destroyComponent', this.activeModal);
-                    }
-
-                    if (skipPreviousModals > 0) {
-                        for (var i = 0; i < skipPreviousModals; i++) {
-                            if (destroySkipped) {
-                                const id = this.modalHistory[this.modalHistory.length - 1];
-                                Livewire.emit('destroyComponent', id);
-                            }
-                            this.modalHistory.pop();
-                        }
-                    }
-
-                    const id = this.modalHistory.pop();
-
-                    if (id && force === false) {
-                        if (id) {
-                            this.setActiveModalComponent(id, true);
-                        } else {
-                            this.setShowPropertyTo(false);
-                        }
-                    } else {
-                        this.setShowPropertyTo(false);
-                    }
-                },
-                setActiveModalComponent(id, skip = false) {
-                    this.setShowPropertyTo(true);
-
-                    if (this.activeModal === id) {
-                        return;
-                    }
-
-                    if (this.activeModal !== false && skip === false) {
-                        this.modalHistory.push(this.activeModal);
-                    }
-
-                    let focusableTimeout = 50;
-
-                    if (this.activeModal === false) {
-                        this.activeModal = id
-                        this.showActiveModal = true;
-                        this.modalWidth = this.getActiveModalAttribute('maxWidthClass');
-                    } else {
-                        this.showActiveModal = false;
-
-                        focusableTimeout = 400;
-
-                        setTimeout(() => {
-                            this.activeModal = id;
-                            this.showActiveModal = true;
-                            this.modalWidth = this.getActiveModalAttribute('maxWidthClass');
-                        }, 300);
-                    }
-
-                    this.$nextTick(() => {
-                        let focusable = this.$refs[id]?.querySelector('[autofocus]');
-                        if (focusable) {
-                            setTimeout(() => {
-                                focusable.focus();
-                            }, focusableTimeout);
-                        }
-                    });
-                },
-                focusables() {
-                    let selector = 'a, button, input, textarea, select, details, [tabindex]:not([tabindex=\'-1\'])'
-
-                    return [...this.$el.querySelectorAll(selector)]
-                        .filter(el => !el.hasAttribute('disabled'))
-                },
-                firstFocusable() {
-                    return this.focusables()[0]
-                },
-                lastFocusable() {
-                    return this.focusables().slice(-1)[0]
-                },
-                nextFocusable() {
-                    return this.focusables()[this.nextFocusableIndex()] || this.firstFocusable()
-                },
-                prevFocusable() {
-                    return this.focusables()[this.prevFocusableIndex()] || this.lastFocusable()
-                },
-                nextFocusableIndex() {
-                    return (this.focusables().indexOf(document.activeElement) + 1) % (this.focusables().length + 1)
-                },
-                prevFocusableIndex() {
-                    return Math.max(0, this.focusables().indexOf(document.activeElement)) - 1
-                },
-                setShowPropertyTo(show) {
-                    this.show = show;
-
-                    if (show) {
-                        document.body.classList.add('overflow-y-hidden');
-                    } else {
-                        document.body.classList.remove('overflow-y-hidden');
-
-                        setTimeout(() => {
-                            this.activeModal = false;
-                            this.$wire.resetState();
-                        }, 300);
-                    }
-                },
-                init() {
-                    this.modalWidth = this.getActiveModalAttribute('maxWidthClass');
-
-                    Livewire.on('closeModal', (force = false, skipPreviousModals = 0, destroySkipped = false) => {
-                        this.closeModal(force, skipPreviousModals, destroySkipped);
-                    });
-
-                    Livewire.on('activeModalComponentChanged', (id) => {
-                        this.setActiveModalComponent(id);
-                    });
-                }
-            };
-        }
-    </script>
     <div
-        x-data="LivewireUIModal()"
+        x-data="window.formMakerModal()"
         x-init="init()"
         x-on:close.stop="setShowPropertyTo(false)"
         x-on:keydown.escape.window="closeModalOnEscape()"
@@ -209,8 +92,7 @@
         x-on:keydown.shift.tab.prevent="prevFocusable().focus()"
         x-show="show"
         class="YLDF-fixed YLDF-inset-0 YLDF-z-10 YLDF-overflow-y-auto"
-        style="display: none;"
-    >
+        style="display: none;">
         <div class="YLDF-flex YLDF-items-end YLDF-justify-center YLDF-min-h-screen YLDF-px-4 YLDF-pt-4 YLDF-pb-10 YLDF-text-center sm:YLDF-block sm:YLDF-p-0">
             <div
                 x-show="show"
@@ -221,8 +103,7 @@
                 x-transition:leave="ease-in duration-200"
                 x-transition:leave-start="opacity-100"
                 x-transition:leave-end="opacity-0"
-                class="YLDF-fixed YLDF-inset-0 YLDF-transition-all YLDF-transform"
-            >
+                class="YLDF-fixed YLDF-inset-0 YLDF-transition-all YLDF-transform">
                 <div class="YLDF-absolute YLDF-inset-0 YLDF-bg-gray-500 YLDF-opacity-75"></div>
             </div>
 
@@ -236,10 +117,8 @@
                 x-transition:leave="ease-in duration-200"
                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                x-bind:class="modalWidth"
-                class="YLDF-inline-block YLDF-w-full YLDF-align-bottom YLDF-bg-white YLDF-rounded-lg YLDF-text-left YLDF-overflow-hidden YLDF-shadow-xl YLDF-transform YLDF-transition-all sm:YLDF-my-8 sm:YLDF-align-middle sm:YLDF-w-full"
-                id="modal-container"
-            >
+                class="YLDF-inline-block YLDF-align-bottom YLDF-bg-white YLDF-rounded-lg YLDF-overflow-hidden YLDF-shadow-xl YLDF-transform YLDF-transition-all sm:YLDF-my-8 sm:YLDF-align-middle"
+                id="modal-container">
                 @forelse($modals as $id => $component)
                     <div x-show.immediate="activeModal == '{{ $id }}'" x-ref="{{ $id }}" wire:key="{{ $id }}">
                         @livewire($component['name'], $component['attributes'], key($id))

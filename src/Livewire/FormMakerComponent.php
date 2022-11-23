@@ -25,6 +25,11 @@ class FormMakerComponent extends Component
     public ?string $activeModal;
     public array $modals = [];
 
+    public function resetModals(): void
+    {
+        $this->modals = [];
+        $this->activeModal = null;
+    }
     /**
      * @throws UnknownFieldLoaded
      */
@@ -67,27 +72,18 @@ class FormMakerComponent extends Component
     }
 
 
-    public function openModal(string $component, array $componentAttributes = [], array $modalAttributes = []): void
+    public function openModal(string $component, array $componentAttributes = []): void
     {
-        $componentClass = app('livewire')->getClass($component);
         $id = md5($component . serialize($componentAttributes));
         $this->modals[$id] = [
             'name'            => $component,
             'attributes'      => $componentAttributes,
-            'modalAttributes' => array_merge([
-                'closeOnClickAway' => $componentClass::closeModalOnClickAway(),
-                'closeOnEscape' => $componentClass::closeModalOnEscape(),
-                'closeOnEscapeIsForceful' => $componentClass::closeModalOnEscapeIsForceful(),
-                'dispatchCloseEvent' => $componentClass::dispatchCloseEvent(),
-                'destroyOnClose' => $componentClass::destroyOnClose(),
-                'maxWidth' => $componentClass::modalMaxWidth(),
-                'maxWidthClass' => $componentClass::modalMaxWidthClass(),
-            ], $modalAttributes),
         ];
         $this->activeModal = $id;
+        $this->emit('activeEditFieldModalChanged' , $id);
     }
 
-    public function closeModal(string $id): void
+    public function deleteModal(string $id): void
     {
         unset($this->modals[$id]);
     }
@@ -96,7 +92,7 @@ class FormMakerComponent extends Component
     {
         return [
             'openModal',
-            'closeModal'
+            'deleteModal'
         ];
     }
 }
