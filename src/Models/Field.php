@@ -8,6 +8,7 @@ use Yeganehha\DynamicForm\DefineProperty;
 use Yeganehha\DynamicForm\Enums\FieldStatusEnum;
 use Yeganehha\DynamicForm\Exceptions\UnknownFieldLoaded;
 use Yeganehha\DynamicForm\Interfaces\FieldInterface;
+use Yeganehha\DynamicForm\Services\FieldService;
 use Yeganehha\DynamicForm\Traits\FieldModelSetter;
 
 /**
@@ -140,11 +141,12 @@ class Field extends Model
         return self::query()->findOrFail($id);
     }
 
-    public function getTypeAttribute ()
+    /**
+     * @return FieldInterface
+     * @throws UnknownFieldLoaded
+     */
+    public function getTypeAttribute () : FieldInterface
     {
-        if ( is_string($this->type_variable) and class_exists($this->type_variable) and is_subclass_of($this->type_variable, FieldInterface::class) ){
-            return new ($this->type_variable)();
-        }
-        return null;
+        return FieldService::getType($this->type_variable);
     }
 }

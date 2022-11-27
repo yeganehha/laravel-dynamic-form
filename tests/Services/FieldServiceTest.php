@@ -169,6 +169,7 @@ class FieldServiceTest extends TestCase
     {
         $form = FormService::findOrRegister('test 1' , Form::class );
         $this->expectException(FildTypeNotFoundException::class);
+        $this->expectException(UnknownFieldLoaded::class);
         FieldService::insert($form , DefineProperty::class , 'test 1');
         FieldService::insert($form , (new DefineProperty()) , 'test 2');
     }
@@ -307,5 +308,17 @@ class FieldServiceTest extends TestCase
             'id' => $filed1->id,
             'order_number' => 0
         ]);
+    }
+
+    public function testGetType()
+    {
+        $field = FieldService::getType(TextField::class);
+        $this->assertEquals($field::class , TextField::class);
+    }
+
+    public function testGetWrongType()
+    {
+        $this->expectException(UnknownFieldLoaded::class);
+        FieldService::getType(self::class);
     }
 }

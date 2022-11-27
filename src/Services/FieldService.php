@@ -27,12 +27,23 @@ class FieldService
     {
         $fields = [];
         foreach ( config(DefineProperty::$configFile.'.fields' , [] ) as $item) {
-            if (class_exists($item) and is_subclass_of($item, FieldInterface::class))
-                $fields[] = new $item();
-            else
-                throw new UnknownFieldLoaded();
+            $fields[] = self::getType($item);
         }
         return collect($fields);
+    }
+
+    /**
+     * get field from name of field type
+     * @param string $name
+     * @return FieldInterface
+     * @throws UnknownFieldLoaded
+     */
+    public static function getType(string $name):FieldInterface
+    {
+        if ( class_exists($name) and is_subclass_of($name, FieldInterface::class) ){
+            return new ($name)();
+        }
+        throw new UnknownFieldLoaded();
     }
 
     /**
@@ -83,8 +94,8 @@ class FieldService
         }
 
 
-        if ( is_string($type_variable) and class_exists($type_variable) and is_subclass_of($type_variable, FieldInterface::class) ){
-            $type_variable = new $type_variable();
+        if ( is_string($type_variable) ){
+            $type_variable = FieldService::getType($type_variable);
         }
         elseif ( ! $type_variable instanceof FieldInterface )
             throw (new FildTypeNotFoundException())->setModel($type_variable);
