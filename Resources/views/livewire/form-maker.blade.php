@@ -117,7 +117,7 @@
                 x-transition:leave="ease-in duration-200"
                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                class="YLDF-inline-block YLDF-align-bottom YLDF-bg-white YLDF-rounded-lg YLDF-overflow-hidden YLDF-shadow-xl YLDF-transform YLDF-transition-all sm:YLDF-my-8 sm:YLDF-align-middle"
+                class="YLDF-inline-block  lg:YLDF-w-1/2 YLDF-align-bottom YLDF-bg-white YLDF-rounded-lg YLDF-overflow-hidden YLDF-shadow-xl YLDF-transform YLDF-transition-all sm:YLDF-my-8 sm:YLDF-align-middle"
                 id="modal-container">
                 @forelse($modals as $id => $component)
                     <div x-show.immediate="activeModal == '{{ $id }}'" x-ref="{{ $id }}" wire:key="{{ $id }}">

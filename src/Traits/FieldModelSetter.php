@@ -4,6 +4,7 @@
 namespace Yeganehha\DynamicForm\Traits;
 
 
+use Yeganehha\DynamicForm\Enums\FieldStatusEnum;
 use Yeganehha\DynamicForm\Models\Field;
 
 trait FieldModelSetter
@@ -87,10 +88,10 @@ trait FieldModelSetter
     }
 
     /**
-     * @param string $status
+     * @param FieldStatusEnum $status
      * @return Field
      */
-    public function setStatus(string $status): Field
+    public function setStatus(FieldStatusEnum $status): Field
     {
         $this->status = $status;
         return $this;

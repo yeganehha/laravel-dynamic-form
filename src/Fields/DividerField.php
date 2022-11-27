@@ -26,7 +26,7 @@ class DividerField extends Field
         ';
     }
 
-    public function field(string $name, string $value = null, string $class = null, string $style = null, array $attributes, mixed $additional_data): string
+    public function field(string $name, string|null $value = null, string|null $class = null, string|null $style = null, array $attributes = [], mixed $additional_data = null): string
     {
         if ( config(DefineProperty::$configFile.'.style.divider.use_hr_tag' , false ) )
             return Blade::render(
