@@ -16,19 +16,35 @@ class EditFieldModal extends Component
     public array $configForm;
     public array $styleForm;
     public array $advanceForm;
+    public array $setting = [];
 
+    protected $rules = [];
+
+    public function hydrate() {
+        $this->setInformation();
+    }
     public function mount(int $field_id)
     {
         $this->field = FieldService::findById($field_id);
-        $configForm = new FormGroupHandler();
-        $styleForm = new FormGroupHandler();
-        $advanceForm = new FormGroupHandler();
-        $this->field->type->getBaseConfigFields($configForm);
-        $this->field->type->getBaseStyleFields($styleForm);
-        $this->field->type->getBaseAdvanceFields($advanceForm);
-        $this->configForm = $configForm->getFields();
-        $this->styleForm = $styleForm->getFields();
-        $this->advanceForm = $advanceForm->getFields();
+        $this->setInformation();
+    }
+
+    private function setInformation()
+    {
+        $this->configForm = $this->field->type->getBaseConfigFields()->getFields();
+        $this->styleForm = $this->field->type->getBaseStyleFields()->getFields();
+        $this->advanceForm = $this->field->type->getBaseAdvanceFields()->getFields();
+        foreach ($this->configForm as $name => $field)
+            $this->rules['field.'.$name] = $field->validation;
+        foreach ($this->styleForm as $name => $field)
+            $this->rules['field.'.$name] = $field->validation;
+        foreach ($this->advanceForm as $name => $field)
+            $this->rules['field.'.$name] = $field->validation;
+    }
+    public function updated($field, $value)
+    {
+        //$this->field->${$field} = $value;
+        $this->field->save();
 
     }
 
@@ -40,6 +56,6 @@ class EditFieldModal extends Component
     public function deleteField()
     {
         $this->field->delete();
-        $this->emit('deleteModal',1);
+        $this->emit('deleteModal');
     }
 }

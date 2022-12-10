@@ -36,7 +36,7 @@
                         <label for="email" class="YLDF-block YLDF-mb-2 YLDF-text-sm YLDF-font-medium YLDF-text-gray-900">
                             {{ $CField->label }}
                         </label>
-                        {!!  $CField->type->field($name , '' , 'YLDF-bg-gray-50 YLDF-border YLDF-border-gray-300 YLDF-text-gray-900 YLDF-text-sm YLDF-rounded-lg YLDF-focus:ring-blue-500 YLDF-focus:border-blue-500 YLDF-block YLDF-w-full YLDF-p-2.5' ) !!}
+                        {!!  $CField->type->field('field.'.$name , '' , 'YLDF-bg-gray-50 YLDF-border YLDF-border-gray-300 YLDF-text-gray-900 YLDF-text-sm YLDF-rounded-lg YLDF-focus:ring-blue-500 YLDF-focus:border-blue-500 YLDF-block YLDF-w-full YLDF-p-2.5' ) !!}
                         @if ( $CField->label )
                         <p class="YLDF-mt-2 YLDF-text-sm YLDF-text-gray-500">
                             {{ $CField->description }}
@@ -51,7 +51,7 @@
                         <label for="email" class="YLDF-block YLDF-mb-2 YLDF-text-sm YLDF-font-medium YLDF-text-gray-900">
                             {{ $CField->label }}
                         </label>
-                        {!!  $CField->type->field($name , '' , 'YLDF-bg-gray-50 YLDF-border YLDF-border-gray-300 YLDF-text-gray-900 YLDF-text-sm YLDF-rounded-lg YLDF-focus:ring-blue-500 YLDF-focus:border-blue-500 YLDF-block YLDF-w-full YLDF-p-2.5' ) !!}
+                        {!!  $CField->type->field('field.'.$name , '' , 'YLDF-bg-gray-50 YLDF-border YLDF-border-gray-300 YLDF-text-gray-900 YLDF-text-sm YLDF-rounded-lg YLDF-focus:ring-blue-500 YLDF-focus:border-blue-500 YLDF-block YLDF-w-full YLDF-p-2.5' ) !!}
                         @if ( $CField->label )
                             <p class="YLDF-mt-2 YLDF-text-sm YLDF-text-gray-500">
                                 {{ $CField->description }}
@@ -66,7 +66,7 @@
                         <label for="email" class="YLDF-block YLDF-mb-2 YLDF-text-sm YLDF-font-medium YLDF-text-gray-900">
                             {{ $CField->label }}
                         </label>
-                        {!!  $CField->type->field($name , '' , 'YLDF-bg-gray-50 YLDF-border YLDF-border-gray-300 YLDF-text-gray-900 YLDF-text-sm YLDF-rounded-lg YLDF-focus:ring-blue-500 YLDF-focus:border-blue-500 YLDF-block YLDF-w-full YLDF-p-2.5' ) !!}
+                        {!!  $CField->type->field('field.'.$name , '' , 'YLDF-bg-gray-50 YLDF-border YLDF-border-gray-300 YLDF-text-gray-900 YLDF-text-sm YLDF-rounded-lg YLDF-focus:ring-blue-500 YLDF-focus:border-blue-500 YLDF-block YLDF-w-full YLDF-p-2.5' ) !!}
                         @if ( $CField->label )
                             <p class="YLDF-mt-2 YLDF-text-sm YLDF-text-gray-500">
                                 {{ $CField->description }}

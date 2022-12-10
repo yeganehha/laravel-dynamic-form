@@ -47,8 +47,9 @@ abstract class Field implements FieldInterface,Arrayable
     {
     }
 
-    public function getBaseConfigFields(FormGroupHandler $form): void
+    public function getBaseConfigFields(FormGroupHandler|null $form = null ): FormGroupHandler
     {
+        $form = $form ?? new FormGroupHandler();
         $form->add('label', FieldModel::init()
             ->setLabel(trans('field.label'))
             ->setValidate(['required', 'string', 'max:500'])
@@ -71,14 +72,16 @@ abstract class Field implements FieldInterface,Arrayable
             ->setClass('')
         );
         $this->baseConfigFields($form);
+        return $form;
     }
 
     protected function baseStyleFields(FormGroupHandler $form): void
     {
     }
 
-    public function getBaseStyleFields(FormGroupHandler $form): void
+    public function getBaseStyleFields(FormGroupHandler|null $form = null): FormGroupHandler
     {
+        $form = $form ?? new FormGroupHandler();
         $form->add('class', FieldModel::init()
             ->setLabel(trans('field.class_css'))
             ->setValidate(['required', 'string', 'max:500'])
@@ -101,14 +104,16 @@ abstract class Field implements FieldInterface,Arrayable
             ->setClass('')
         );
         $this->baseStyleFields($form);
+        return $form;
     }
 
     protected function baseAdvanceFields(FormGroupHandler $form): void
     {
     }
 
-    public function getBaseAdvanceFields(FormGroupHandler $form): void
+    public function getBaseAdvanceFields(FormGroupHandler|null $form = null): FormGroupHandler
     {
+        $form = $form ?? new FormGroupHandler();
         $form->add('validate', FieldModel::init()
             ->setLabel(trans('field.validate'))
             ->setValidate(['nullable', 'string', 'max:500'])
@@ -117,6 +122,7 @@ abstract class Field implements FieldInterface,Arrayable
             ->setClass('')
         );
         $this->baseAdvanceFields($form);
+        return $form;
     }
 
     public function getClass(): string

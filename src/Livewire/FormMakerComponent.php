@@ -83,9 +83,16 @@ class FormMakerComponent extends Component
         $this->emit('activeEditFieldModalChanged' , $id);
     }
 
-    public function deleteModal(string $id): void
+    public function deleteModal(string|null $id = null): void
     {
+        $id = $id ?? $this->activeModal;
+        $this->emit('closeModal');
         unset($this->modals[$id]);
+    }
+
+    public function fieldListUpdate(): void
+    {
+        $this->mountData();
     }
 
     public function getListeners(): array

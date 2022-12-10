@@ -13,11 +13,11 @@ interface FieldInterface
 
     public function value(mixed $value = null) : ?string;
 
-    public function getBaseConfigFields(FormGroupHandler $form) : void;
+    public function getBaseConfigFields(FormGroupHandler|null $form) : FormGroupHandler;
 
-    public function getBaseStyleFields(FormGroupHandler $form) : void;
+    public function getBaseStyleFields(FormGroupHandler|null $form) : FormGroupHandler;
 
-    public function getBaseAdvanceFields(FormGroupHandler $form) : void;
+    public function getBaseAdvanceFields(FormGroupHandler|null $form) : FormGroupHandler;
 
     public function getClass(): string ;
 
