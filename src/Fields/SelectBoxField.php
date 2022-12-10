@@ -29,7 +29,7 @@ class SelectBoxField extends Field
         if( ! is_array($value) )
             throw new ArrayValuesOfSelectBoxAreMissing();
         return Blade::render(
-            '<select name="{{ $name }}" @if($class) class="{{ $class }}" @endif @if($style) style="{{ $style }}" @endif @foreach($attributes as $attribute => $attribute_value) {{ $attribute}}="{{ $attribute_value }} @endforeach />'.
+            '<select wire:model="{{ $name }}" name="{{ $name }}" @if($class) class="{{ $class }}" @endif @if($style) style="{{ $style }}" @endif @foreach($attributes as $attribute => $attribute_value) {{ $attribute}}="{{ $attribute_value }} @endforeach />'.
             '@foreach($value as $value => $label) <option value="{{ $value }}" @if( $value == $value ) selected @endif>{{ $label }}</option>'.
             '</select>',
             compact('name' ,'class' ,'style' ,'attributes' , 'value' , 'additional_data' )
