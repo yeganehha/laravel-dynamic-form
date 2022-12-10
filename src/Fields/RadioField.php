@@ -36,7 +36,7 @@ class RadioField extends Field
     public function field(string $name, string|null $value = null, string|null $class = null, string|null $style = null, array $attributes = [], mixed $additional_data = null): string
     {
         return Blade::render(
-            '<input type="radio" wire:model="{{ $name }}" name="{{ $name }}" @if($value) value="{{ $value }}" @endif @if($value == $value ) checked @endif @if($class) class="{{ $class }}" @endif @if($style) style="{{ $style }}" @endif @foreach($attributes as $attribute => $attribute_value) {{ $attribute}}="{{ $attribute_value }} @endforeach />',
+            '<input type="radio" wire:model.lazy="{{ $name }}" name="{{ $name }}" @if($value) value="{{ $value }}" @endif @if($value == $value ) checked @endif @if($class) class="{{ $class }}" @endif @if($style) style="{{ $style }}" @endif @foreach($attributes as $attribute => $attribute_value) {{ $attribute}}="{{ $attribute_value }} @endforeach />',
             compact('name' ,'class' ,'style' ,'attributes' , 'value' , 'additional_data' )
         );
     }
